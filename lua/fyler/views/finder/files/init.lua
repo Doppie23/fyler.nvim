@@ -40,6 +40,11 @@ end
 ---@return string[]|nil
 function Files:path_to_segments(path)
   local posix_path = Path.new(path):posix_path()
+
+  -- Hacky fix: if root_path appears twice, strip the first occurrence
+  local doubled = posix_path:find("//")
+  if doubled then posix_path = posix_path:sub(doubled + 1) end
+
   if not vim.startswith(posix_path, self.root_path) then return nil end
 
   local relative = posix_path:sub(#self.root_path + 1)

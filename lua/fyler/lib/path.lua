@@ -61,7 +61,7 @@ end
 function Path:posix_path()
   local path = self._original
   if Path.is_windows() then
-    local drive, remaining = path:match("^([^:]+):\\(.*)$")
+    local drive, remaining = path:match("^([^:]+):[/\\](.*)$")
     if drive then return string.format("/%s/%s", drive:upper(), remaining:gsub("\\", "/")) end
     return util.select_n(1, path:gsub("\\", "/"))
   else
